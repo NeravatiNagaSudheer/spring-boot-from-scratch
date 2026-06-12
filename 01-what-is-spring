@@ -1,0 +1,151 @@
+# What is Spring?
+
+## Introduction
+
+Spring is one of the most popular Java frameworks used for building enterprise applications. It simplifies application development by providing a comprehensive programming and configuration model for modern Java-based applications.
+
+Spring helps developers write loosely coupled, maintainable, and testable code.
+
+---
+
+## Why Was Spring Created?
+
+Before Spring, Java enterprise applications were often built using Java EE technologies, which required extensive configuration and tightly coupled code.
+
+Developers faced challenges such as:
+
+* Complex object creation and dependency management
+* Difficult testing and maintenance
+* Large amounts of configuration code
+* Tight coupling between classes
+
+Spring was introduced to solve these problems through Dependency Injection (DI) and Inversion of Control (IoC).
+
+---
+
+## Key Features of Spring
+
+### 1. Dependency Injection (DI)
+
+Dependency Injection allows Spring to provide required objects to a class instead of the class creating them manually.
+
+#### Without Dependency Injection
+
+```java
+public class OrderService {
+
+    private PaymentService paymentService = new PaymentService();
+
+}
+```
+
+The OrderService is tightly coupled with PaymentService.
+
+#### With Dependency Injection
+
+```java
+@Service
+public class OrderService {
+
+    private final PaymentService paymentService;
+
+    public OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+}
+```
+
+Spring creates and injects the dependency automatically.
+
+---
+
+### 2. Inversion of Control (IoC)
+
+Traditionally, developers create and manage objects manually.
+
+With Spring, the IoC Container manages object creation, configuration, and lifecycle.
+
+This shifts control from the application code to the Spring Framework.
+
+---
+
+### 3. Transaction Management
+
+Spring provides built-in support for managing database transactions.
+
+Example:
+
+```java
+@Transactional
+public void placeOrder() {
+    // business logic
+}
+```
+
+This helps ensure data consistency.
+
+---
+
+### 4. Integration Support
+
+Spring integrates easily with:
+
+* Databases
+* REST APIs
+* Messaging Systems
+* Security Frameworks
+* Cloud Platforms
+
+---
+
+## Benefits of Spring
+
+* Reduced boilerplate code
+* Improved maintainability
+* Better testability
+* Loose coupling
+* Faster development
+
+---
+
+## Real-World Example
+
+Consider an E-Commerce Application:
+
+* OrderService processes orders.
+* PaymentService handles payments.
+* InventoryService manages stock.
+
+Spring manages the dependencies between these services, making the application easier to develop and maintain.
+
+---
+
+## Common Interview Questions
+
+### Q1. What is Spring?
+
+Spring is a Java framework that simplifies enterprise application development through features such as Dependency Injection, Inversion of Control, Transaction Management, and integration support.
+
+### Q2. What is Dependency Injection?
+
+Dependency Injection is a design pattern where dependencies are provided by the framework rather than being created manually by the class.
+
+### Q3. What is IoC?
+
+Inversion of Control is a principle where object creation and lifecycle management are handled by the Spring Container.
+
+### Q4. What are the advantages of Spring?
+
+* Loose coupling
+* Better testability
+* Easier maintenance
+* Reduced boilerplate code
+* Powerful ecosystem support
+
+---
+
+## Summary
+
+Spring is a powerful Java framework that simplifies enterprise application development by managing object creation, dependency injection, and application configuration. Understanding Spring fundamentals is essential before learning Spring Boot.
+
+📌 Next Topic: What is Spring Boot and Why Was It Created?
