@@ -1,0 +1,209 @@
+# What is Spring Boot?
+
+## Introduction
+
+Spring Boot is an extension of the Spring Framework that simplifies the development of Java applications.
+
+It helps developers create production-ready applications quickly by reducing configuration and boilerplate code.
+
+Spring Boot is built on top of Spring Framework and provides sensible defaults, auto-configuration, and embedded servers.
+
+---
+
+## Why Was Spring Boot Created?
+
+Although Spring Framework made enterprise Java development easier, developers still faced several challenges:
+
+* Large amounts of XML configuration
+* Complex project setup
+* Manual dependency management
+* External server configuration
+* Boilerplate code
+
+As projects grew, setting up a new Spring application could become time-consuming.
+
+Spring Boot was introduced to solve these problems and improve developer productivity.
+
+---
+
+## What Problems Does Spring Boot Solve?
+
+### Before Spring Boot
+
+Developers needed to:
+
+* Configure XML files manually
+* Set up web servers such as Tomcat
+* Manage dependencies individually
+* Configure application components manually
+
+This increased development time and complexity.
+
+### With Spring Boot
+
+Spring Boot provides:
+
+* Auto Configuration
+* Embedded Servers
+* Starter Dependencies
+* Production-Ready Features
+* Opinionated Defaults
+
+As a result, developers can focus on business logic instead of infrastructure setup.
+
+---
+
+## Key Features of Spring Boot
+
+### 1. Auto Configuration
+
+Spring Boot automatically configures application components based on dependencies available in the classpath.
+
+For example:
+
+If you add the Spring Web dependency, Spring Boot automatically configures:
+
+* Embedded Tomcat
+* DispatcherServlet
+* Jackson JSON Support
+
+without requiring manual configuration.
+
+---
+
+### 2. Embedded Server
+
+Spring Boot applications contain an embedded web server.
+
+Supported servers include:
+
+* Tomcat
+* Jetty
+* Undertow
+
+This eliminates the need to deploy WAR files to external servers.
+
+---
+
+### 3. Starter Dependencies
+
+Starter dependencies simplify dependency management.
+
+Example:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+This single dependency includes everything required to build REST APIs.
+
+---
+
+### 4. Production-Ready Features
+
+Spring Boot provides production-ready capabilities through Spring Boot Actuator.
+
+Examples:
+
+* Health Checks
+* Metrics
+* Monitoring
+* Application Information
+
+---
+
+### 5. Faster Development
+
+Developers spend less time configuring applications and more time building features.
+
+---
+
+## Basic Spring Boot Application
+
+```java
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+The `@SpringBootApplication` annotation combines:
+
+* `@Configuration`
+* `@EnableAutoConfiguration`
+* `@ComponentScan`
+
+This single annotation bootstraps the entire application.
+
+---
+
+## Spring vs Spring Boot
+
+| Spring Framework         | Spring Boot           |
+| ------------------------ | --------------------- |
+| More configuration       | Minimal configuration |
+| Manual setup             | Auto configuration    |
+| External server required | Embedded server       |
+| More boilerplate code    | Less boilerplate code |
+| Slower project setup     | Faster project setup  |
+
+---
+
+## Real-World Example
+
+Suppose you want to create a Product Management REST API.
+
+Without Spring Boot:
+
+* Configure Tomcat
+* Configure DispatcherServlet
+* Configure JSON converters
+* Configure dependencies manually
+
+With Spring Boot:
+
+* Add Spring Web Starter
+* Create Controller
+* Run Application
+
+The application is ready within minutes.
+
+---
+
+## Common Interview Questions
+
+### Q1. What is Spring Boot?
+
+Spring Boot is an extension of the Spring Framework that simplifies application development through auto-configuration, starter dependencies, and embedded servers.
+
+### Q2. Why was Spring Boot introduced?
+
+Spring Boot was introduced to reduce configuration complexity and speed up application development.
+
+### Q3. Does Spring Boot replace Spring Framework?
+
+No.
+
+Spring Boot is built on top of Spring Framework and uses Spring internally.
+
+### Q4. What is the purpose of @SpringBootApplication?
+
+It combines Configuration, Auto Configuration, and Component Scanning into a single annotation.
+
+### Q5. What are Starter Dependencies?
+
+Starter dependencies are pre-configured dependency bundles that simplify project setup.
+
+---
+
+## Summary
+
+Spring Boot simplifies Java application development by reducing configuration, providing embedded servers, and enabling rapid application development. It allows developers to focus on business requirements rather than infrastructure setup.
+
+📌 Next Topic: Auto Configuration in Spring Boot
