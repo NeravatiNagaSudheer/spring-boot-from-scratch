@@ -1,0 +1,225 @@
+Auto Configuration in Spring Boot
+
+Introduction
+
+One of the most powerful features of Spring Boot is Auto Configuration.
+
+Auto Configuration automatically configures Spring application components based on the dependencies available in the projects claspath.
+
+This significantly reduces the amount of manual configuration required and helps developers build applications faster.
+
+Without Auto Configuration, developers would need to configure many components manually, increasing development time and complexity.
+________________________________________
+
+What is Auto Configuration?
+
+Auto Configuration is a feature that allows Spring Boot to automatically configure beans and application settings based on the libraries present in the project.
+
+For example, if your project contains:
+
+<dependency> 
+      <groupId>org.springframework.boot</groupId> 
+      <artifactId>spring-boot-starter-web</artifactId> 
+</dependency>
+
+Spring Boot automatically configures:
+•	Embedded Tomcat Server
+•	DispatcherServlet
+•	Spring MVC
+•	Jackson JSON Converter
+•	Error Handling Components
+without requiring additional configuration.
+________________________________________
+Why Do We Need Auto Configuration?
+
+Before Spring Boot, developers had to configure:
+•	XML Files
+•	Servlet Configuration
+•	Bean Definitions
+•	Web Server Setup
+•	JSON Converters
+•	Transaction Managers
+
+Example workflow before Spring Boot:
+
+Add Dependency
+      ↓
+Configure XML
+      ↓
+Configure Servlet
+      ↓
+Configure Beans
+      ↓
+Deploy Server
+      ↓
+Run Application
+This process was time-consuming and error-prone.
+Spring Boot simplified this process using Auto Configuration.
+________________________________________
+How Auto Configuration Works
+
+Step 1: Application Starts
+The application starts from:
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+________________________________________
+Step 2: @SpringBootApplication is Processed
+The annotation:
+@SpringBootApplication
+internally includes:
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+________________________________________
+Step 3: @EnableAutoConfiguration Executes
+
+@EnableAutoConfiguration
+tells Spring Boot:
+"Look at the dependencies available in the project and automatically configure required components."
+________________________________________
+Step 4: Spring Boot Checks Dependencies
+For example:
+If Spring Boot finds:
+spring-boot-starter-web
+it configures:
+•	Tomcat
+•	DispatcherServlet
+•	MVC Components
+•	Jackson
+If Spring Boot finds:
+spring-boot-starter-data-jpa
+it configures:
+•	EntityManager
+•	Hibernate
+•	Transaction Management
+•	JPA Repositories
+________________________________________
+Auto Configuration Flow
+Application Starts
+         ↓
+@SpringBootApplication
+         ↓
+@EnableAutoConfiguration
+         ↓
+Check Classpath Dependencies
+         ↓
+Create Required Beans
+         ↓
+Application Ready
+________________________________________
+Real-World Example
+Suppose you are building a Product Management REST API.
+Dependency
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+Controller
+@RestController
+@RequestMapping("/products")
+public class ProductController {
+
+    @GetMapping
+    public String getProducts() {
+        return "Products Retrieved Successfully";
+    }
+}
+Run Application
+@SpringBootApplication
+public class ProductApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ProductApplication.class, args);
+    }
+}
+Without configuring Tomcat or Spring MVC manually, the REST API is ready to use.
+This is possible because of Auto Configuration.
+________________________________________
+Common Auto-Configured Components
+Spring Web Starter
+Automatically configures:
+•	Embedded Tomcat
+•	DispatcherServlet
+•	Spring MVC
+•	Jackson
+________________________________________
+Spring Data JPA Starter
+Automatically configures:
+•	Hibernate
+•	EntityManager
+•	Transaction Manager
+•	Repository Support
+________________________________________
+Spring Security Starter
+Automatically configures:
+•	Authentication Mechanisms
+•	Security Filters
+•	Default Login Page
+________________________________________
+Advantages of Auto Configuration
+1. Less Configuration
+Developers write less configuration code.
+2. Faster Development
+Projects can be started quickly.
+3. Reduced Boilerplate
+No need for repetitive setup.
+4. Better Productivity
+Focus remains on business logic.
+5. Production Ready
+Many components are configured using industry best practices.
+________________________________________
+Can We Override Auto Configuration?
+Yes.
+Spring Boot allows developers to customize or override automatically configured beans.
+Example:
+@Bean
+public ObjectMapper objectMapper() {
+    return new ObjectMapper();
+}
+Spring Boot will use the custom bean instead of the default configuration.
+________________________________________
+How to Disable Auto Configuration?
+Specific Auto Configurations can be excluded.
+Example:
+@SpringBootApplication(
+    exclude = DataSourceAutoConfiguration.class
+)
+public class Application {
+}
+This prevents Spring Boot from configuring a DataSource automatically.
+________________________________________
+Interview Questions
+Q1. What is Auto Configuration in Spring Boot?
+Auto Configuration automatically configures application components based on dependencies available in the classpath.
+Q2. Which annotation enables Auto Configuration?
+@EnableAutoConfiguration
+________________________________________
+Q3. What is the role of @SpringBootApplication?
+It combines:
+•	@Configuration
+•	@EnableAutoConfiguration
+•	@ComponentScan
+________________________________________
+Q4. How does Spring Boot know which beans to configure?
+It checks the dependencies available in the application's classpath and applies predefined configuration rules.
+________________________________________
+Q5. Can Auto Configuration be overridden?
+Yes.
+Developers can provide custom bean definitions or exclude specific configurations.
+________________________________________
+Q6. What are the benefits of Auto Configuration?
+•	Faster development
+•	Less configuration
+•	Reduced boilerplate code
+•	Improved productivity
+________________________________________
+Summary
+Auto Configuration is one of the most important features of Spring Boot. It automatically configures application components based on project dependencies, reducing manual setup and accelerating development.
+By understanding Auto Configuration, developers can better understand how Spring Boot works internally and confidently customize application behavior when required.
+📌 Next Topic: Spring Boot Starter Dependencies
+
