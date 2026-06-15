@@ -1,0 +1,210 @@
+Spring Boot Starter Dependencies
+Introduction
+One of the key features that makes Spring Boot developer-friendly is Starter Dependencies.
+Starter Dependencies are pre-configured dependency bundles provided by Spring Boot that simplify project setup and dependency management.
+Instead of adding multiple libraries individually, developers can add a single starter dependency and Spring Boot automatically includes all the required libraries.
+This reduces complexity, avoids version conflicts, and accelerates development.
+________________________________________
+What Are Starter Dependencies?
+Starter Dependencies are dependency descriptors that aggregate commonly used libraries for a specific purpose.
+For example, when building a REST API, instead of manually adding:
+•	Spring MVC
+•	Embedded Tomcat
+•	Jackson
+•	Validation Libraries
+you can simply add:
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+Spring Boot automatically includes all the required libraries.
+________________________________________
+Why Do We Need Starter Dependencies?
+Before Spring Boot, developers had to:
+•	Search for required libraries
+•	Add dependencies manually
+•	Manage compatible versions
+•	Resolve dependency conflicts
+•	Update versions individually
+Example:
+Spring MVC
+Jackson
+Tomcat
+Validation API
+Logging Libraries
+
+↓
+
+Manual Dependency Management
+This process was time-consuming and error-prone.
+Starter Dependencies solve these problems by providing pre-tested dependency bundles.
+________________________________________
+How Starter Dependencies Work
+Developer
+     │
+     ▼
+spring-boot-starter-web
+     │
+     ├── Spring MVC
+     ├── Embedded Tomcat
+     ├── Jackson
+     ├── Validation Support
+     └── Logging
+     │
+     ▼
+ Ready-to-Run REST API
+The developer adds a single dependency, and Spring Boot handles the rest.
+________________________________________
+Example: Spring Boot Starter Web
+Dependency
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+Automatically Includes
+•	Spring MVC
+•	Embedded Tomcat
+•	Jackson
+•	Validation Support
+•	Logging Frameworks
+This allows developers to start building REST APIs immediately.
+________________________________________
+Simple REST API Example
+Controller
+@RestController
+@RequestMapping("/products")
+public class ProductController {
+
+    @GetMapping
+    public String getProducts() {
+        return "Products Retrieved Successfully";
+    }
+}
+Application Class
+@SpringBootApplication
+public class ProductApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ProductApplication.class, args);
+    }
+}
+Because of spring-boot-starter-web, no additional web server configuration is required.
+________________________________________
+Commonly Used Spring Boot Starters
+1. Spring Web Starter
+spring-boot-starter-web
+Used for:
+•	REST APIs
+•	Web Applications
+•	MVC Applications
+________________________________________
+2. Spring Data JPA Starter
+spring-boot-starter-data-jpa
+Automatically includes:
+•	Hibernate
+•	JPA Support
+•	Transaction Management
+Used for database operations.
+________________________________________
+3. Spring Security Starter
+spring-boot-starter-security
+Provides:
+•	Authentication
+•	Authorization
+•	Security Filters
+Used to secure applications.
+________________________________________
+4. Spring Boot Test Starter
+spring-boot-starter-test
+Provides:
+•	JUnit
+•	Mockito
+•	Spring Testing Support
+Used for unit and integration testing.
+________________________________________
+5. Spring Actuator Starter
+spring-boot-starter-actuator
+Provides:
+•	Health Checks
+•	Metrics
+•	Monitoring Endpoints
+Used for production monitoring.
+________________________________________
+Benefits of Starter Dependencies
+1. Simplified Dependency Management
+One dependency can include many required libraries.
+________________________________________
+2. Reduced Configuration
+Less manual setup is required.
+________________________________________
+3. Version Compatibility
+Spring Boot ensures compatible library versions.
+________________________________________
+4. Faster Development
+Developers can focus on business logic rather than dependency management.
+________________________________________
+5. Improved Productivity
+Projects can be started quickly with minimal setup.
+________________________________________
+How to Check Included Dependencies?
+Use the Maven Dependency Tree:
+mvn dependency:tree
+This command displays all dependencies brought in by a starter.
+For example:
+spring-boot-starter-web
+│
+├── spring-web
+├── spring-webmvc
+├── jackson-databind
+├── tomcat-embed-core
+└── spring-boot-starter
+This helps developers understand what is included behind the scenes.
+________________________________________
+Real-World Example
+Suppose you need to build an E-Commerce Application.
+Requirements:
+•	REST APIs
+•	Database Access
+•	Authentication
+•	Monitoring
+Required Starters:
+spring-boot-starter-web
+spring-boot-starter-data-jpa
+spring-boot-starter-security
+spring-boot-starter-actuator
+With just these starters, most of the infrastructure setup is already handled by Spring Boot.
+________________________________________
+Interview Questions
+Q1. What are Starter Dependencies?
+Starter Dependencies are pre-configured dependency bundles that simplify project setup and dependency management.
+________________________________________
+Q2. Why are Starter Dependencies useful?
+They reduce manual dependency management, avoid version conflicts, and accelerate development.
+________________________________________
+Q3. What does spring-boot-starter-web include?
+It typically includes:
+•	Spring MVC
+•	Embedded Tomcat
+•	Jackson
+•	Validation Support
+________________________________________
+Q4. How do Starter Dependencies help with version management?
+Spring Boot manages and provides compatible versions for included libraries.
+________________________________________
+Q5. How can you see the dependencies included by a starter?
+Using:
+mvn dependency:tree
+________________________________________
+Q6. Name some commonly used Spring Boot Starters.
+•	spring-boot-starter-web
+•	spring-boot-starter-data-jpa
+•	spring-boot-starter-security
+•	spring-boot-starter-test
+•	spring-boot-starter-actuator
+________________________________________
+Summary
+Starter Dependencies are one of the most useful features of Spring Boot. They simplify dependency management by grouping commonly used libraries into a single dependency.
+This reduces configuration effort, prevents version conflicts, and allows developers to build applications faster and more efficiently.
+Understanding Starter Dependencies is important because they work closely with Auto Configuration to make Spring Boot development fast and productive.
+📌 Next Topic: Embedded Tomcat in Spring Boot
+
