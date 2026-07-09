@@ -1,15 +1,15 @@
-package com.example.learning;
+package com.example.exceptionhandling;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringBootLearningApplication {
+public class SpringBootExceptionHandlingApplication {
 
     public static void main(String[] args) {
 
         SpringApplication.run(
-                SpringBootLearningApplication.class,
+                SpringBootExceptionHandlingApplication.class,
                 args);
 
     }
