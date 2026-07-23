@@ -2,6 +2,7 @@ package com.neobank.customerservice.controller;
 
 import com.neobank.customerservice.entity.Customer;
 import com.neobank.customerservice.service.CustomerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer){
         Customer savedCustomer = customerService.createCustomer(customer);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedCustomer);
@@ -32,7 +33,7 @@ public class CustomerController {
 
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomerById(@PathVariable Long id,@RequestBody Customer customer){
+    public ResponseEntity<Customer> updateCustomerById(@PathVariable Long id,@Valid @RequestBody Customer customer){
         Customer updatedCustomer = customerService.updateCustomerById(id,customer);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(updatedCustomer);

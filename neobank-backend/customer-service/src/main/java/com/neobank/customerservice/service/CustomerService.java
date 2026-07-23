@@ -1,6 +1,7 @@
 package com.neobank.customerservice.service;
 
 import com.neobank.customerservice.entity.Customer;
+import com.neobank.customerservice.exception.CustomerNotFoundException;
 import com.neobank.customerservice.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,12 @@ public class CustomerService {
 
     public Customer getCustomerByID(Long id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer Not Found with CustomerId :" + id));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer Not Found with CustomerId :" + id));
     }
 
     public Customer updateCustomerById(Long id, Customer customer) {
-        Customer existingCustomer = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer Not Found with CustomerId :" + id));
+        Customer existingCustomer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer Not Found with CustomerId :" + id));
 
         existingCustomer.setFirstName(customer.getFirstName());
         existingCustomer.setLastName(customer.getLastName());
@@ -48,7 +50,8 @@ public class CustomerService {
     }
 
     public void deleteCustomerById(Long id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer Not Found with CustomerId :" + id));
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer Not Found with CustomerId :" + id));
 
         customerRepository.delete(customer);
     }
