@@ -1,20 +1,22 @@
-package com.neobank.customerservice.entity;
+package com.neobank.customerservice.dto;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class CustomerRequestDto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long customerId;

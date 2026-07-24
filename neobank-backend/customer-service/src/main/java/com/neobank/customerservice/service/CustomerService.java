@@ -1,9 +1,12 @@
 package com.neobank.customerservice.service;
 
+import com.neobank.customerservice.dto.CustomerRequestDto;
+import com.neobank.customerservice.dto.CustomerResponseDto;
 import com.neobank.customerservice.entity.Customer;
 import com.neobank.customerservice.exception.CustomerNotFoundException;
 import com.neobank.customerservice.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,38 +17,80 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    public Customer createCustomer(Customer customer) {
-        Customer customer1 = new Customer();
 
-        customer1.setFirstName(customer.getFirstName());
-        customer1.setLastName(customer.getLastName());
-        customer1.setEmail(customer.getEmail());
-        customer1.setPhoneNumber(customer.getPhoneNumber());
-        customer1.setDateOfBirth(customer.getDateOfBirth());
+    public CustomerResponseDto createCustomer(CustomerRequestDto customerRequestDto) {
 
-        return customerRepository.save(customer1);
+        Customer customer = new Customer();
+        customer.setFirstName(customerRequestDto.getFirstName());
+        customer.setLastName(customerRequestDto.getLastName());
+        customer.setEmail(customerRequestDto.getEmail());
+        customer.setPhoneNumber(customerRequestDto.getPhoneNumber());
+        customer.setDateOfBirth(customerRequestDto.getDateOfBirth());
+
+        Customer savedCustomer = customerRepository.save(customer);
+
+        CustomerResponseDto response = new CustomerResponseDto();
+        response.setCustomerId(savedCustomer.getCustomerId());
+        response.setFirstName(savedCustomer.getFirstName());
+        response.setLastName(savedCustomer.getLastName());
+        response.setEmail(savedCustomer.getEmail());
+        response.setPhoneNumber(savedCustomer.getPhoneNumber());
+        response.setDateOfBirth(savedCustomer.getDateOfBirth());
+
+        return response;
     }
 
-    public  List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public  List<CustomerResponseDto> getAllCustomers() {
+        return customerRepository.findAll()
+                .stream()
+                .map(customer -> {
+                    CustomerResponseDto dto = new CustomerResponseDto();
+                    dto.setCustomerId(customer.getCustomerId());
+                    dto.setFirstName(customer.getFirstName());
+                    dto.setLastName(customer.getLastName());
+                    dto.setEmail(customer.getEmail());
+                    dto.setPhoneNumber(customer.getPhoneNumber());
+                    dto.setDateOfBirth(customer.getDateOfBirth());
+                    return dto;
+                })
+                .toList();
+
     }
 
-    public Customer getCustomerByID(Long id) {
-        return customerRepository.findById(id)
+    public CustomerResponseDto getCustomerByID(Long id) {
+        Customer customer =  customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer Not Found with CustomerId :" + id));
+        CustomerResponseDto dto = new CustomerResponseDto();
+        dto.setCustomerId(customer.getCustomerId());
+        dto.setFirstName(customer.getFirstName());
+        dto.setLastName(customer.getLastName());
+        dto.setEmail(customer.getEmail());
+        dto.setPhoneNumber(customer.getPhoneNumber());
+        dto.setDateOfBirth(customer.getDateOfBirth());
+        return dto;
     }
 
-    public Customer updateCustomerById(Long id, Customer customer) {
+    public CustomerResponseDto updateCustomerById(Long id, CustomerRequestDto customerRequestDto) {
         Customer existingCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer Not Found with CustomerId :" + id));
 
-        existingCustomer.setFirstName(customer.getFirstName());
-        existingCustomer.setLastName(customer.getLastName());
-        existingCustomer.setEmail(customer.getEmail());
-        existingCustomer.setPhoneNumber(customer.getPhoneNumber());
-        existingCustomer.setDateOfBirth(customer.getDateOfBirth());
+        existingCustomer.setFirstName(customerRequestDto.getFirstName());
+        existingCustomer.setLastName(customerRequestDto.getLastName());
+        existingCustomer.setEmail(customerRequestDto.getEmail());
+        existingCustomer.setPhoneNumber(customerRequestDto.getPhoneNumber());
+        existingCustomer.setDateOfBirth(customerRequestDto.getDateOfBirth());
 
-        return customerRepository.save(existingCustomer);
+        Customer customer1 = customerRepository.save(existingCustomer);
+
+        CustomerResponseDto dto = new CustomerResponseDto();
+        dto.setCustomerId(customer1.getCustomerId());
+        dto.setFirstName(customer1.getFirstName());
+        dto.setLastName(customer1.getLastName());
+        dto.setEmail(customer1.getEmail());
+        dto.setPhoneNumber(customer1.getPhoneNumber());
+        dto.setDateOfBirth(customer1.getDateOfBirth());
+
+        return dto;
 
     }
 
@@ -55,4 +100,6 @@ public class CustomerService {
 
         customerRepository.delete(customer);
     }
+
+
 }
