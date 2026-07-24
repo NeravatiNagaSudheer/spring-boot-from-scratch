@@ -1,4 +1,4 @@
-📅 Day 35 – DTO Pattern (Request DTO & Response DTO)
+ DTO Pattern (Request DTO & Response DTO)
 📖 Overview
 
 Today, I refactored the Customer Service module by introducing the DTO (Data Transfer Object) Pattern.
