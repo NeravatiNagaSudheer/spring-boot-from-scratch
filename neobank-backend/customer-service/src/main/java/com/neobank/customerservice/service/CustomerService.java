@@ -4,6 +4,7 @@ import com.neobank.customerservice.dto.CustomerRequestDto;
 import com.neobank.customerservice.dto.CustomerResponseDto;
 import com.neobank.customerservice.entity.Customer;
 import com.neobank.customerservice.exception.CustomerNotFoundException;
+import com.neobank.customerservice.mapper.CustomerMapper;
 import com.neobank.customerservice.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
@@ -17,80 +18,39 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
 
     public CustomerResponseDto createCustomer(CustomerRequestDto customerRequestDto) {
 
-        Customer customer = new Customer();
-        customer.setFirstName(customerRequestDto.getFirstName());
-        customer.setLastName(customerRequestDto.getLastName());
-        customer.setEmail(customerRequestDto.getEmail());
-        customer.setPhoneNumber(customerRequestDto.getPhoneNumber());
-        customer.setDateOfBirth(customerRequestDto.getDateOfBirth());
+          Customer customer = customerMapper.toEntity(customerRequestDto);
 
-        Customer savedCustomer = customerRepository.save(customer);
-
-        CustomerResponseDto response = new CustomerResponseDto();
-        response.setCustomerId(savedCustomer.getCustomerId());
-        response.setFirstName(savedCustomer.getFirstName());
-        response.setLastName(savedCustomer.getLastName());
-        response.setEmail(savedCustomer.getEmail());
-        response.setPhoneNumber(savedCustomer.getPhoneNumber());
-        response.setDateOfBirth(savedCustomer.getDateOfBirth());
-
-        return response;
+          Customer savedCustomer = customerRepository.save(customer);
+          return customerMapper.toResponseDto(savedCustomer);
     }
 
     public  List<CustomerResponseDto> getAllCustomers() {
-        return customerRepository.findAll()
-                .stream()
-                .map(customer -> {
-                    CustomerResponseDto dto = new CustomerResponseDto();
-                    dto.setCustomerId(customer.getCustomerId());
-                    dto.setFirstName(customer.getFirstName());
-                    dto.setLastName(customer.getLastName());
-                    dto.setEmail(customer.getEmail());
-                    dto.setPhoneNumber(customer.getPhoneNumber());
-                    dto.setDateOfBirth(customer.getDateOfBirth());
-                    return dto;
-                })
-                .toList();
+        return customerMapper.toResponseDtoList(customerRepository.findAll());
 
     }
 
     public CustomerResponseDto getCustomerByID(Long id) {
         Customer customer =  customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer Not Found with CustomerId :" + id));
-        CustomerResponseDto dto = new CustomerResponseDto();
-        dto.setCustomerId(customer.getCustomerId());
-        dto.setFirstName(customer.getFirstName());
-        dto.setLastName(customer.getLastName());
-        dto.setEmail(customer.getEmail());
-        dto.setPhoneNumber(customer.getPhoneNumber());
-        dto.setDateOfBirth(customer.getDateOfBirth());
-        return dto;
+
+        return customerMapper.toResponseDto(customer);
+
     }
 
     public CustomerResponseDto updateCustomerById(Long id, CustomerRequestDto customerRequestDto) {
         Customer existingCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer Not Found with CustomerId :" + id));
 
-        existingCustomer.setFirstName(customerRequestDto.getFirstName());
-        existingCustomer.setLastName(customerRequestDto.getLastName());
-        existingCustomer.setEmail(customerRequestDto.getEmail());
-        existingCustomer.setPhoneNumber(customerRequestDto.getPhoneNumber());
-        existingCustomer.setDateOfBirth(customerRequestDto.getDateOfBirth());
+        customerMapper.updateCustomerFromDto(customerRequestDto,existingCustomer);
 
-        Customer customer1 = customerRepository.save(existingCustomer);
+        Customer savedCustomer = customerRepository.save(existingCustomer);
 
-        CustomerResponseDto dto = new CustomerResponseDto();
-        dto.setCustomerId(customer1.getCustomerId());
-        dto.setFirstName(customer1.getFirstName());
-        dto.setLastName(customer1.getLastName());
-        dto.setEmail(customer1.getEmail());
-        dto.setPhoneNumber(customer1.getPhoneNumber());
-        dto.setDateOfBirth(customer1.getDateOfBirth());
+        return customerMapper.toResponseDto(savedCustomer);
 
-        return dto;
 
     }
 
