@@ -17,15 +17,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class CustomerRequestDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long customerId;
 
     @NotBlank(message = "firstName Should not be null or empty")
     private String firstName;
 
     @NotBlank(message = "lastName Should not be null or empty")
     private String lastName;
+
 
     @NotBlank(message = "Email Should not be blank")
     @Email(message = "Please enter a valid email")
@@ -43,6 +41,7 @@ public class CustomerRequestDto {
     @Past(
             message = "Please Enter a valid Date of Birth")
     private LocalDate dateOfBirth;
+
 
 
 }
