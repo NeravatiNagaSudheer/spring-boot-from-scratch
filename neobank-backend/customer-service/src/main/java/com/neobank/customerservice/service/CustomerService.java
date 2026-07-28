@@ -1,5 +1,6 @@
 package com.neobank.customerservice.service;
 
+import com.neobank.customerservice.dto.CustomerPageResponse;
 import com.neobank.customerservice.dto.CustomerRequestDto;
 import com.neobank.customerservice.dto.CustomerResponseDto;
 import com.neobank.customerservice.entity.Customer;
@@ -8,6 +9,10 @@ import com.neobank.customerservice.mapper.CustomerMapper;
 import com.neobank.customerservice.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,6 +65,30 @@ public class CustomerService {
 
         customerRepository.delete(customer);
     }
+
+    public CustomerPageResponse getAllCustomers(
+            int pageNo,
+            int pageSize,
+            String sortBy,
+            String sortDir
+    ){
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo,pageSize,sort);
+        Page<Customer> page = customerRepository.findAll(pageable);
+        List<CustomerResponseDto> customers = customerMapper.toResponseDtoList(page.getContent());
+
+        return CustomerPageResponse.builder()
+                .customers(customers)
+                .pageNumber(page.getNumber())
+                .pageSize(page.getSize())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .last(page.isLast())
+                .build();
+    }
+
 
 
 }
