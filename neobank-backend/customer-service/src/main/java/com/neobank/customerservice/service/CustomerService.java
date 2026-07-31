@@ -4,6 +4,7 @@ import com.neobank.customerservice.dto.CustomerPageResponse;
 import com.neobank.customerservice.dto.CustomerRequestDto;
 import com.neobank.customerservice.dto.CustomerResponseDto;
 import com.neobank.customerservice.entity.Customer;
+import com.neobank.customerservice.enums.CustomerStatus;
 import com.neobank.customerservice.exception.CustomerNotFoundException;
 import com.neobank.customerservice.mapper.CustomerMapper;
 import com.neobank.customerservice.repository.CustomerRepository;
@@ -89,6 +90,40 @@ public class CustomerService {
                 .build();
     }
 
+    public List<CustomerResponseDto> getCustomersByFirstName(String firstName){
+        List<Customer> customers = customerRepository.findByFirstName(firstName);
+        return customerMapper.toResponseDtoList(customers);
 
+    }
+    public List<CustomerResponseDto> getCustomersByLastName(String lastName){
+        List<Customer> customers = customerRepository.findByLastName(lastName);
+        return customerMapper.toResponseDtoList(customers);
+    }
 
+    public List<CustomerResponseDto> getCustomersByEmail(String email){
+        List<Customer> customers = customerRepository.findByEmail(email);
+        return customerMapper.toResponseDtoList(customers);
+    }
+
+    public List<CustomerResponseDto> getCustomersByStatus(CustomerStatus status){
+        List<Customer> customers = customerRepository.findByStatus(status);
+        return customerMapper.toResponseDtoList(customers);
+    }
+
+    //Partial-Search
+    public List<CustomerResponseDto> searchCustomersByFirstName(String firstName) {
+        List<Customer> customers = customerRepository.findByFirstNameContainingIgnoreCase(firstName);
+        return customerMapper.toResponseDtoList(customers);
+
+    }
+
+    public List<CustomerResponseDto> searchCustomersByLastName(String lastName) {
+        List<Customer> customers = customerRepository.findByLastNameContainingIgnoreCase(lastName);
+        return customerMapper.toResponseDtoList(customers);
+    }
+
+    public List<CustomerResponseDto> searchCustomersByEmail(String email) {
+        List<Customer> customers = customerRepository.findByEmailContainingIgnoreCase(email);
+        return customerMapper.toResponseDtoList(customers);
+    }
 }

@@ -4,6 +4,7 @@ import com.neobank.customerservice.dto.CustomerPageResponse;
 import com.neobank.customerservice.dto.CustomerRequestDto;
 import com.neobank.customerservice.dto.CustomerResponseDto;
 import com.neobank.customerservice.entity.Customer;
+import com.neobank.customerservice.enums.CustomerStatus;
 import com.neobank.customerservice.service.CustomerService;
 import com.neobank.customerservice.util.AppConstants;
 import jakarta.validation.Valid;
@@ -63,5 +64,39 @@ public class CustomerController {
         );
 
     }
+    @GetMapping("/search/firstname")
+    public List<CustomerResponseDto> getCustomersByFirstName(@RequestParam String firstName){
+        return customerService.getCustomersByFirstName(firstName);
+    }
+
+    @GetMapping("/search/lastname")
+    public List<CustomerResponseDto> getCustomersByLastName(@RequestParam String lastName){
+        return customerService.getCustomersByLastName(lastName);
+    }
+
+    @GetMapping("/search/email")
+    public List<CustomerResponseDto> getCustomersByEmail(@RequestParam String email){
+        return customerService.getCustomersByEmail(email);
+    }
+    @GetMapping("/search/status")
+    public List<CustomerResponseDto> getCustomersByStatus(@RequestParam CustomerStatus status){
+        return customerService.getCustomersByStatus(status);
+    }
+
+    @GetMapping("/search/firstname/contains")
+    public List<CustomerResponseDto> searchCustomersByFirstName(@RequestParam String firstName){
+        return customerService.searchCustomersByFirstName(firstName);
+    }
+
+    @GetMapping("/search/lastname/contains")
+    public List<CustomerResponseDto> searchCustomersByLastName(@RequestParam String lastName){
+        return customerService.searchCustomersByLastName(lastName);
+    }
+
+    @GetMapping("/search/email/contains")
+    public List<CustomerResponseDto> searchCustomersByEmail(@RequestParam String email){
+        return customerService.searchCustomersByEmail(email);
+    }
+
 
 }
