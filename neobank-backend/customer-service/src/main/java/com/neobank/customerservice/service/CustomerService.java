@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -124,6 +125,50 @@ public class CustomerService {
 
     public List<CustomerResponseDto> searchCustomersByEmail(String email) {
         List<Customer> customers = customerRepository.findByEmailContainingIgnoreCase(email);
+        return customerMapper.toResponseDtoList(customers);
+    }
+
+    public List<CustomerResponseDto> searchCustomerByFirstNameAndLastName(String firstName, String lastName) {
+        List<Customer> customers = customerRepository.findByFirstNameAndLastName(firstName, lastName);
+        return customerMapper.toResponseDtoList(customers);
+    }
+
+    public List<CustomerResponseDto> searchCustomersByFirstNameOrLastName(String firstName, String lastName) {
+        List<Customer> customers = customerRepository.findByFirstNameOrLastName(firstName, lastName);
+        return customerMapper.toResponseDtoList(customers);
+    }
+
+    public List<CustomerResponseDto> searchCustomersByDateOfBirthBetween(LocalDate startDate, LocalDate endDate) {
+        List<Customer> customers = customerRepository.findByDateOfBirthBetween(startDate, endDate);
+        return customerMapper.toResponseDtoList(customers);
+    }
+
+    public List<CustomerResponseDto> searchCustomersByFirstNameStartingWithIgnoreCase(String firstName) {
+        List<Customer> customers = customerRepository.findByFirstNameStartingWithIgnoreCase(firstName);
+        return customerMapper.toResponseDtoList(customers);
+    }
+    public List<CustomerResponseDto> searchCustomersByEmailEndingWith(
+            String email){
+
+        List<Customer> customers =
+                customerRepository.findByEmailEndingWithIgnoreCase(email);
+
+        return customerMapper.toResponseDtoList(customers);
+    }
+    public List<CustomerResponseDto> getCustomersByStatusOrderByFirstNameAsc(
+            CustomerStatus status) {
+
+        List<Customer> customers =
+                customerRepository.findByStatusOrderByFirstNameAsc(status);
+
+        return customerMapper.toResponseDtoList(customers);
+    }
+    public List<CustomerResponseDto> getCustomersByStatuses(
+            List<CustomerStatus> statuses) {
+
+        List<Customer> customers =
+                customerRepository.findByStatusIn(statuses);
+
         return customerMapper.toResponseDtoList(customers);
     }
 }

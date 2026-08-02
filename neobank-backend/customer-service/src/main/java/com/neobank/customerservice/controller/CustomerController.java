@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -96,6 +97,42 @@ public class CustomerController {
     @GetMapping("/search/email/contains")
     public List<CustomerResponseDto> searchCustomersByEmail(@RequestParam String email){
         return customerService.searchCustomersByEmail(email);
+    }
+
+    @GetMapping("/search")
+    public List<CustomerResponseDto> searchByCustomerFirstNameAndLastName(@RequestParam String firstName,@RequestParam String lastName){
+        return customerService.searchCustomerByFirstNameAndLastName(firstName,lastName);
+    }
+
+    @GetMapping("/search/or")
+    public  List<CustomerResponseDto> searchByFirstNameOrLastName(@RequestParam String firstName,@RequestParam String lastName){
+        return customerService.searchCustomersByFirstNameOrLastName(firstName,lastName);
+    }
+    @GetMapping("/search/dob")
+    public List<CustomerResponseDto> searchByDateOfBirth(@RequestParam LocalDate startDate,@RequestParam LocalDate endDate){
+        return customerService.searchCustomersByDateOfBirthBetween(startDate,endDate);
+    }
+    @GetMapping("/search/firstname/startsWith")
+    public List<CustomerResponseDto> searchCustomersByFirstNameStartingWithIgnoreCase(@RequestParam String firstName){
+        return customerService.searchCustomersByFirstNameStartingWithIgnoreCase(firstName);
+    }
+    @GetMapping("/search/email/endsWith")
+    public List<CustomerResponseDto> searchCustomersByEmailEndingWith(
+            @RequestParam String email){
+
+        return customerService.searchCustomersByEmailEndingWith(email);
+    }
+    @GetMapping("/search/status/orderBy/firstName")
+    public List<CustomerResponseDto> getCustomersByStatusOrderByFirstNameAsc(
+            @RequestParam CustomerStatus status) {
+
+        return customerService.getCustomersByStatusOrderByFirstNameAsc(status);
+    }
+    @GetMapping("/search/status/in")
+    public List<CustomerResponseDto> getCustomersByStatuses(
+            @RequestParam List<CustomerStatus> statuses) {
+
+        return customerService.getCustomersByStatuses(statuses);
     }
 
 

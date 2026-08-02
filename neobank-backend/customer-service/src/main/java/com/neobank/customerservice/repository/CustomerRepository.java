@@ -5,6 +5,7 @@ import com.neobank.customerservice.enums.CustomerStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -20,4 +21,12 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findByFirstNameContainingIgnoreCase(String firstName);
     List<Customer> findByLastNameContainingIgnoreCase(String lastName);
     List<Customer> findByEmailContainingIgnoreCase(String email);
+
+    List<Customer> findByFirstNameAndLastName(String firstName,String lastName);
+    List<Customer> findByFirstNameOrLastName(String firstName,String lastName);
+    List<Customer> findByDateOfBirthBetween(LocalDate startDate,LocalDate endDate);
+    List<Customer> findByFirstNameStartingWithIgnoreCase(String firstName);
+    List<Customer> findByEmailEndingWithIgnoreCase(String email);
+    List<Customer> findByStatusOrderByFirstNameAsc(CustomerStatus status);
+    List<Customer> findByStatusIn(List<CustomerStatus> statuses);
 }
