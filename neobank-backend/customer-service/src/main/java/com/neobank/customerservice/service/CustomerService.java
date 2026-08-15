@@ -3,17 +3,20 @@ package com.neobank.customerservice.service;
 import com.neobank.customerservice.dto.CustomerPageResponse;
 import com.neobank.customerservice.dto.CustomerRequestDto;
 import com.neobank.customerservice.dto.CustomerResponseDto;
+import com.neobank.customerservice.dto.CustomerSearchRequest;
 import com.neobank.customerservice.entity.Customer;
 import com.neobank.customerservice.enums.CustomerStatus;
 import com.neobank.customerservice.exception.CustomerNotFoundException;
 import com.neobank.customerservice.mapper.CustomerMapper;
 import com.neobank.customerservice.repository.CustomerRepository;
+import com.neobank.customerservice.specification.CustomerSpecification;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -170,5 +173,63 @@ public class CustomerService {
                 customerRepository.findByStatusIn(statuses);
 
         return customerMapper.toResponseDtoList(customers);
+    }
+
+    public CustomerPageResponse searchCustomers(CustomerSearchRequest request,int pageNo,
+                                                int pageSize,String sortBy,String sortDir){
+
+        if (pageNo < 0){
+            throw new IllegalArgumentException("pageNo cannot be negative");
+        }
+        if (pageSize <= 0 || pageSize > 50){
+            throw new IllegalArgumentException("pageSize must be between 1 and 50");
+
+        }
+
+        Specification<Customer> specification =
+                (root, query, criteriaBuilder)
+                        -> criteriaBuilder.conjunction();
+
+        if (request.getFirstName() != null && !request.getFirstName().isBlank()){
+            specification = specification.and(CustomerSpecification.hasFirstName(request.getFirstName()));
+        }
+
+        if (request.getLastName() != null && !request.getLastName().isBlank()){
+            specification = specification.and(CustomerSpecification.hasLastName(request.getLastName()));
+        }
+
+        if(request.getEmail() != null && !request.getEmail().isBlank()){
+            specification = specification.and(CustomerSpecification.hasEmail(request.getEmail()));
+        }
+
+        if (request.getStatus() != null){
+            specification = specification.and(CustomerSpecification.hasStatus(request.getStatus()));
+        }
+
+        List<String> allowedSortFields = List.of(
+                "customerId","firstName","lastName","email","status"
+        );
+
+        if (!allowedSortFields.contains(sortBy)){
+            throw new IllegalArgumentException("Invalid sortBy field");
+        }
+
+        Sort sort = sortDir.equalsIgnoreCase("asc")
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo,pageSize,sort);
+
+        Page<Customer> page = customerRepository.findAll(specification,pageable);
+
+        List<CustomerResponseDto> customers = customerMapper.toResponseDtoList(page.getContent());
+
+        return CustomerPageResponse.builder()
+                .customers(customers)
+                .pageNumber(page.getNumber())
+                .pageSize(page.getSize())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .last(page.isLast())
+                .build();
     }
 }

@@ -3,6 +3,7 @@ package com.neobank.customerservice.controller;
 import com.neobank.customerservice.dto.CustomerPageResponse;
 import com.neobank.customerservice.dto.CustomerRequestDto;
 import com.neobank.customerservice.dto.CustomerResponseDto;
+import com.neobank.customerservice.dto.CustomerSearchRequest;
 import com.neobank.customerservice.entity.Customer;
 import com.neobank.customerservice.enums.CustomerStatus;
 import com.neobank.customerservice.service.CustomerService;
@@ -135,5 +136,29 @@ public class CustomerController {
         return customerService.getCustomersByStatuses(statuses);
     }
 
+    @GetMapping("/dynamic-search")
+    public CustomerPageResponse searchCustomers(
+            CustomerSearchRequest request,
+
+            @RequestParam(defaultValue = AppConstants.DEFAULT_PAGE_NUMBER)
+            int pageNo,
+
+            @RequestParam(defaultValue = AppConstants.DEFAULT_PAGE_SIZE)
+            int pageSize,
+
+            @RequestParam(defaultValue = AppConstants.DEFAULT_SORT_BY)
+            String sortBy,
+
+            @RequestParam(defaultValue = AppConstants.DEFAULT_SORT_DIRECTION)
+            String sortDir) {
+
+        return customerService.searchCustomers(
+                request,
+                pageNo,
+                pageSize,
+                sortBy,
+                sortDir
+        );
+    }
 
 }

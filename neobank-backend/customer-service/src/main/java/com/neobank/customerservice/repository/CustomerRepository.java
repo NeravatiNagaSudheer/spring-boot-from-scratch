@@ -3,13 +3,14 @@ package com.neobank.customerservice.repository;
 import com.neobank.customerservice.entity.Customer;
 import com.neobank.customerservice.enums.CustomerStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Long>, JpaSpecificationExecutor<Customer> {
 
             //Exact-Search
     List<Customer> findByFirstName(String firstName);
