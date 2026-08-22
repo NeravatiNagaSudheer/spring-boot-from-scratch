@@ -38,12 +38,12 @@ public class CustomerService {
           Customer savedCustomer = customerRepository.save(customer);
           return customerMapper.toResponseDto(savedCustomer);
     }
-
+    @Transactional(readOnly = true)
     public  List<CustomerResponseDto> getAllCustomers() {
         return customerMapper.toResponseDtoList(customerRepository.findAll());
 
     }
-
+    @Transactional(readOnly = true)
     public CustomerResponseDto getCustomerByID(Long id) {
         Customer customer =  customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer Not Found with CustomerId :" + id));
