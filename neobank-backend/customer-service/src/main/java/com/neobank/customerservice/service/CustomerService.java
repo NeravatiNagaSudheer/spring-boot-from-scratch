@@ -10,8 +10,8 @@ import com.neobank.customerservice.exception.CustomerNotFoundException;
 import com.neobank.customerservice.mapper.CustomerMapper;
 import com.neobank.customerservice.repository.CustomerRepository;
 import com.neobank.customerservice.specification.CustomerSpecification;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +30,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
+    @Transactional
     public CustomerResponseDto createCustomer(CustomerRequestDto customerRequestDto) {
 
           Customer customer = customerMapper.toEntity(customerRequestDto);
@@ -50,7 +51,7 @@ public class CustomerService {
         return customerMapper.toResponseDto(customer);
 
     }
-
+    @Transactional
     public CustomerResponseDto updateCustomerById(Long id, CustomerRequestDto customerRequestDto) {
         Customer existingCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer Not Found with CustomerId :" + id));
@@ -63,7 +64,7 @@ public class CustomerService {
 
 
     }
-
+    @Transactional
     public void deleteCustomerById(Long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer Not Found with CustomerId :" + id));
